@@ -1,0 +1,306 @@
+import java.util.ArrayList;
+import com.example.fng_drools.model.Action;
+import com.example.fng_drools.model.User;
+import com.example.fng_drools.model.Role;
+import com.example.fng_drools.model.CreditQuotaOpening
+import com.example.fng_drools.model.CreditQuotaOpening;
+import com.example.fng_drools.enums.ActionRole;
+global com.example.fng_drools.model.PermissionResponse permissionResponse;
+global com.example.fng_drools.model.FileFormatResponse fileFormatResponse;
+global com.example.fng_drools.model.CreditOpeningResponse creditOpeningResponses;
+
+dialect  "mvel"
+
+rule "Action is of type LOAD_ANEXO_5_FILE and user does not have permissions"
+    when
+    	$c: Action(actionType == ActionRole.LOAD_ANEXO_5_FILE)
+        $u: User(!roleIds.contains(Role.USER_ROLE_ID))
+    then
+        String msg = "User does not have permissions to upload ANEXO 5. Request permissions to your administrator";
+        permissionResponse.setHasPermissionForAction(false);
+        permissionResponse.setMessage(msg);
+        permissionResponse.setActionType(ActionRole.LOAD_ANEXO_5_FILE);
+    	System.out.println(msg);
+end
+
+rule "Action is of type LOAD_ANEXO_5_FILE and user has permissions"
+    when
+    	$c: Action(actionType == ActionRole.LOAD_ANEXO_5_FILE)
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+    then
+        String msg = "Allowed action.";
+        permissionResponse.setHasPermissionForAction(true);
+        permissionResponse.setMessage(msg);
+        permissionResponse.setActionType(ActionRole.LOAD_ANEXO_5_FILE);
+    	System.out.println(msg);
+end
+
+rule "File loaded to open cupos to the system is of type CSV"
+    when
+        $c: Action(actionType == ActionRole.LOAD_ANEXO_5_FILE)
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval($c.validateCSVFileType())
+    then
+        fileFormatResponse.setValid(fileFormatResponse.isValid());
+        fileFormatResponse.addMessage("File type is correct");
+end
+
+rule "File loaded to open cupos to the system is not of type CSV"
+    when
+        $c: Action(actionType == ActionRole.LOAD_ANEXO_5_FILE)
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval($c.validateCSVFileType())
+    then
+        fileFormatResponse.setValid(false);
+        fileFormatResponse.addMessage("ERROR: File is not of CSV type");
+end
+
+rule "File loaded to open cupos is not empty"
+    when
+        $c: Action(actionType == ActionRole.LOAD_ANEXO_5_FILE)
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval($c.validateFileIsNotEmpty())
+    then
+        fileFormatResponse.setValid(fileFormatResponse.isValid());
+        fileFormatResponse.addMessage("File is not empty");
+end
+
+rule "File loaded to open cupos to the system is empty"
+    when
+        $c: Action(actionType == ActionRole.LOAD_ANEXO_5_FILE)
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval($c.validateCSVFileType())
+    then
+        fileFormatResponse.setValid(false);
+        fileFormatResponse.addMessage("ERROR: File is empty");
+end
+
+rule "File loaded to open respects max size"
+    when
+        $c: Action(actionType == ActionRole.LOAD_ANEXO_5_FILE)
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval($c.validateFileNotExceedsSize(2000))
+    then
+        fileFormatResponse.setValid(fileFormatResponse.isValid());
+        fileFormatResponse.addMessage("File size is correct");
+end
+
+rule "File loaded to open cupos to the system exceeds max size"
+    when
+        $c: Action(actionType == ActionRole.LOAD_ANEXO_5_FILE)
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval($c.validateFileNotExceedsSize(2000))
+    then
+        fileFormatResponse.setValid(false);
+        fileFormatResponse.addMessage("ERROR: File exceeds the max size of %d bytes".formatted(2000));
+end
+
+rule "Action is of type GENERATE_CUPOS_PORTAL and user does not have permissions"
+    when
+    	$c: Action(actionType == ActionRole.GENERATE_CUPOS_PORTAL)
+        $u: User(!roleIds.contains(Role.USER_ROLE_ID))
+    then
+        String msg = "User does not have permissions to GENERATE_CUPOS_PORTAL. Request permissions to your administrator";
+        permissionResponse.setHasPermissionForAction(false);
+        permissionResponse.setMessage(msg);
+        permissionResponse.setActionType(ActionRole.GENERATE_CUPOS_PORTAL);
+    	System.out.println(msg);
+end
+
+rule "Action is of type GENERATE_CUPOS_PORTAL and user has permissions"
+    when
+    	$c: Action(actionType == ActionRole.GENERATE_CUPOS_PORTAL)
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+    then
+        String msg = "Allowed action.";
+        permissionResponse.setHasPermissionForAction(true);
+        permissionResponse.setMessage(msg);
+        permissionResponse.setActionType(ActionRole.GENERATE_CUPOS_PORTAL);
+    	System.out.println(msg);
+end
+
+rule "Validate Intermediary Nit number: number of characters different than 10 "
+    when
+        $o: CreditQuotaOpening()
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval(!$o.validateIntermediaryNitCharactersNumber())
+    then
+        String msg = "Number of characters different than 10, validate the NIT of the Financial Intermediary and update it";
+        System.out.println(msg);
+        $o.addError("IntermediaryNit 1", msg);
+end
+
+rule "Validate Intermediary Nit number: is not numeric"
+    when
+        $o: CreditQuotaOpening()
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval(!$o.validateIntermediaryNitIsNumeric())
+    then
+        String msg = "Nit is not numeric, validate the NIT of the Financial Intermediary and update it";
+        System.out.println(msg);
+        $o.addError("IntermediaryNit 2", msg);
+end
+
+rule "Validate Intermediary Nit number: number does not exist in the registered financial intermediaries"
+    when
+        $o: CreditQuotaOpening()
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval(!$o.validateIntermediaryNitDoesNotExist())
+    then
+        String msg = "The NIT number does not belong to the registered financial intermediaries, action validate the NIT number of the intermediary";
+        System.out.println(msg);
+        $o.addError("IntermediaryNit 3", msg);
+end
+
+
+rule "Validate Debtor Id number: Id is of type CC and number of characters is more than 10"
+    when
+        $o: CreditQuotaOpening()
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval(!$o.validateDebtorIdCCType())
+    then
+ 	    String msg = "Id is of type CC and number of characters is more than 10, validate the id and update it";
+        System.out.println(msg);
+        $o.addError("Debtor Id 1", msg);
+end
+
+rule "Validate Debtor ID: not numeric characters found"
+    when
+        $o: CreditQuotaOpening()
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval(!$o.validateDebtorIdIsNumeric())
+    then
+ 	    String msg = "Non-numeric characters exist, validate the id of the user, correct the wrong character";
+        System.out.println(msg);
+        $o.addError("Debtor Id 2", msg);
+end
+
+
+rule "Validate Debtor ID type: does not belong to CC, CE or NIT"
+    when
+        $o: CreditQuotaOpening()
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval(!$o.validateDebtorTypeId())
+    then
+ 	    String msg = "Id type is not CC, CE or NIT";
+        System.out.println(msg);
+        $o.addError("Debtor Id type", msg);
+end
+
+rule "Validate Municipality Code: characters Length is less than 5"
+    when
+        $o: CreditQuotaOpening()
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval(!$o.validateMunicipalityCodeLength())
+    then
+ 	    String msg = "The municipality code exceeds 5 numerical characters.";
+        System.out.println(msg);
+        $o.addError("Municipality code 1", msg);
+end
+
+
+rule "Validate Municipality Code: not numeric characters found"
+    when
+        $o: CreditQuotaOpening()
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval(!$o.validateMunicipalityCodeIsNumeric())
+    then
+ 	    String msg = "There are non-numeric values in the Municipality code";
+        System.out.println(msg);
+        $o.addError("Municipality code 2", msg);
+end
+
+
+rule "Validate Municipality Code: does not exist in Portal registers"
+    when
+        $o: CreditQuotaOpening()
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval(!$o.validateMunicipalityCodeExists())
+    then
+ 	    String msg = "The municipality code does not exist in the registered code";
+        System.out.println(msg);
+        $o.addError("Municipality code 3", msg);
+end
+
+
+rule "Validate CIIU Code: characters length is less than 4"
+    when
+        $o: CreditQuotaOpening()
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval(!$o.validateCIIUCodeLength())
+    then
+ 	    String msg = "CIIU code exceeds 4 digits";
+        System.out.println(msg);
+        $o.addError("CIIU code 1", msg);
+end
+
+
+rule "Validate CIIU Code: not numeric characters found"
+    when
+        $o: CreditQuotaOpening()
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval(!$o.validateCIIUCodeIsNumeric())
+    then
+ 	    String msg = "Alphanumeric characters in the code";
+        System.out.println(msg);
+        $o.addError("CIIU code 2", msg);
+end
+
+
+rule "Validate Credit ReferenceL characters length is more than 14"
+    when
+        $o: CreditQuotaOpening()
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval(!$o.validateCreditReferenceCharactersLength())
+    then
+ 	    String msg = "Credit reference code exceeds 14 digits";
+        System.out.println(msg);
+        $o.addError("Credit Reference", msg);
+end
+
+rule "Validate Credit Reference: not numeric characters found"
+    when
+        $o: CreditQuotaOpening()
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval(!$o.validateCreditReferenceIsNumeric())
+    then
+ 	    String msg = "Alphanumeric characters in the Credit reference";
+        System.out.println(msg);
+        $o.addError("Credit Reference 2", msg);
+end
+
+rule "Validate Warranty Code: chanracters length exceeds 6"
+    when
+        $o: CreditQuotaOpening()
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval(!$o.validateWarrantyCodeCharactersLength())
+    then
+ 	    String msg = "Warranty Code exceeds 6 digits";
+        System.out.println(msg);
+        $o.addError("Warranty code", msg);
+end
+
+rule "Validate Warranty Code: pattern is not correct"
+    when
+        $o: CreditQuotaOpening()
+        $u: User(roleIds.contains(Role.USER_ROLE_ID))
+        eval(!$o.validateWarrantyCodePattern())
+    then
+ 	    String msg = "Warranty Code does not match the required pattern. The first three characters must be numeric, and the last three must be letters";
+        System.out.println(msg);
+        $o.addError("Warranty code 2", msg);
+end
+
+
+rule "Aggregate Error Messages"
+when
+    $results : ArrayList(size > 0) from collect(CreditQuotaOpening())
+then
+    // Aggregate error messages into a result list
+    for (Object obj : $results) {
+        CreditQuotaOpening result = (CreditQuotaOpening) obj; // Cast to CreditQuotaOpening
+        creditOpeningResponses.addError(result.getId(), result.getErrors());
+    }
+end
+
+
