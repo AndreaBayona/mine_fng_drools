@@ -298,15 +298,32 @@ rule "Validate Warranty Code: pattern is not correct"
 end
 
 
-//rule "Aggregate Error Messages"
-//when
-//    $results : ArrayList(size > 0) from collect(CreditQuotaOpening())
-//then
-//    // Aggregate error messages into a result list
-//    for (Object obj : $results) {
-//        CreditQuotaOpening result = (CreditQuotaOpening) obj; // Cast to CreditQuotaOpening
-//        creditOpeningResponse.addError(result.getId(), result.getErrors());
-//    }
-//end
+//-------------------Case: Cancel Reservation----------------------//
+
+rule "Action is of type MASS_CUPOS_CANCELLATION and user does not have permissions"
+    when
+    	$c: Action(actionType == ActionRole.MASS_CUPOS_CANCELLATION)
+        $u: User(!roleIds.contains(Role.ADMIN_ROLE_ID))
+        eval(permissionResponse != null)
+    then
+        String msg = "User does not have permissions to cancel reserve. Request permissions to your administrator";
+        permissionResponse.setHasPermissionForAction(false);
+        permissionResponse.setMessage(msg);
+        permissionResponse.setActionType(ActionRole.MASS_CUPOS_CANCELLATION);
+    	System.out.println(msg);
+end
+
+rule "Action is of type MASS_CUPOS_CANCELLATION and user has permissions"
+    when
+    	$c: Action(actionType == ActionRole.MASS_CUPOS_CANCELLATION)
+        $u: User(roleIds.contains(Role.ADMIN_ROLE_ID))
+        eval(permissionResponse != null)
+    then
+        String msg = "Allowed action.";
+        permissionResponse.setHasPermissionForAction(true);
+        permissionResponse.setMessage(msg);
+        permissionResponse.setActionType(ActionRole.MASS_CUPOS_CANCELLATION);
+    	System.out.println(msg);
+end
 
 
