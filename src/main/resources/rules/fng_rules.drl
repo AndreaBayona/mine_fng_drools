@@ -77,7 +77,7 @@ rule "File loaded to open cupos to the system is empty"
         $c: Action(actionType == ActionRole.LOAD_ANEXO_5_FILE)
         $u: User(roleIds.contains(Role.ADMIN_ROLE_ID))
         eval(fileFormatResponse != null)
-        eval(!$c.validateCSVFileType())
+        eval(!$c.validateFileIsNotEmpty())
     then
         fileFormatResponse.setIsValid(false);
         fileFormatResponse.addMessage("ERROR: File is empty");
@@ -88,7 +88,7 @@ rule "File loaded to open respects max size"
         $c: Action(actionType == ActionRole.LOAD_ANEXO_5_FILE)
         $u: User(roleIds.contains(Role.ADMIN_ROLE_ID))
         eval(fileFormatResponse != null)
-        eval($c.validateFileNotExceedsSize(2000))
+        eval($c.validateFileNotExceedsSize(524288000))
     then
         fileFormatResponse.setIsValid(fileFormatResponse.isValid());
 end
@@ -98,10 +98,10 @@ rule "File loaded to open cupos to the system exceeds max size"
         $c: Action(actionType == ActionRole.LOAD_ANEXO_5_FILE)
         $u: User(roleIds.contains(Role.ADMIN_ROLE_ID))
         eval(fileFormatResponse != null)
-        eval(!$c.validateFileNotExceedsSize(2000))
+        eval(!$c.validateFileNotExceedsSize(524288000))
     then
         fileFormatResponse.setIsValid(false);
-        fileFormatResponse.addMessage("ERROR: File exceeds the max size of %d bytes".formatted(2000));
+        fileFormatResponse.addMessage("ERROR: File exceeds the max size of 500 MG bytes");
 end
 
 
