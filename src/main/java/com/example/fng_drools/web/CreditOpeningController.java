@@ -4,10 +4,7 @@ import com.example.fng_drools.model.*;
 import com.example.fng_drools.service.CreditOpeningService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/getCreditOpeningsValidation")
@@ -18,6 +15,7 @@ public class CreditOpeningController {
         this.service = service;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping
     public ResponseEntity<CreditOpeningResponse> getCreditOpeningsValidation(@RequestBody CreditOpeningRequest requestBody) {
         CreditOpeningResponse res = service.isFileContentValid(requestBody.getUser(), requestBody.getCreditQuotaOpenings());

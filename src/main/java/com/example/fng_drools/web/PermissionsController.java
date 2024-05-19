@@ -7,10 +7,7 @@ import com.example.fng_drools.model.User;
 import com.example.fng_drools.service.PermissionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.logging.Logger;
 
@@ -27,6 +24,7 @@ public class PermissionsController {
         this.permissionsService = permissionsService;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("")
     public ResponseEntity<PermissionResponse> getPermissionsValidation(@RequestBody PermissionRequest requestBody) {
         logger.info("=================getPermissionsValidation=============================");
