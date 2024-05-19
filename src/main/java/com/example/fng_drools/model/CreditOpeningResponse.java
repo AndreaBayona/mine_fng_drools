@@ -12,8 +12,18 @@ public class CreditOpeningResponse {
         errors = new HashMap<>();
     }
 
-    public void addError(String key, Map<String, String> value) {
-        errors.put(key, value);
+    // Method to add an error message for a specific element and field
+    public void addErrorMessage(String elementKey, String fieldKey, String errorMessage) {
+        // Check if the errors map already contains errors for the given element
+        if (!errors.containsKey(elementKey)) {
+            errors.put(elementKey, new HashMap<>());
+        }
+
+        // Get the map of errors for the given element
+        Map<String, String> fieldErrors = errors.get(elementKey);
+
+        // Add the error message for the specified field
+        fieldErrors.put(fieldKey, errorMessage);
     }
 
     public Map<String, Map<String, String>> getErrors() {

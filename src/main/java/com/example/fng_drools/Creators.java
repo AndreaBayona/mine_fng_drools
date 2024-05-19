@@ -23,7 +23,7 @@ public class Creators {
 		
 		ArrayList<Role> roles = new ArrayList<>();
 		roles.add(new Role(Role.ADMIN_ROLE_ID, Role.RoleType.ADMIN));
-		roles.add(new Role(Role.USER_ROLE_ID, Role.RoleType.USER));
+		roles.add(new Role(Role.READ_ONLY, Role.RoleType.READ_ONLY));
 
 
         return new Portal(intermediaries, municipalityCodes, roles);

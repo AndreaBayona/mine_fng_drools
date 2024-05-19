@@ -12,8 +12,7 @@ public class CreditQuotaOpening {
 	private Warranty warrantyReference;
 	private Debtor debtor;
 	private Intermediary bank;
-	private final Portal portal;
-	private Map<String, String> errors;
+	private Portal portal;
 
 	
 	//-----------------------------------
@@ -30,19 +29,6 @@ public class CreditQuotaOpening {
 		this.bank = bank;
 		this.debtor = debtor;
 		this.portal = portal;
-		this.errors = new HashMap<>();
-	}
-
-	public void addError(String key, String value) {
-		if(this.errors == null){
-			this.errors = new HashMap<>();
-		}
-
-		this.errors.put(key, value);
-	}
-
-	public Map<String, String> getErrors() {
-		return this.errors;
 	}
 
 	public boolean validateIntermediaryNitCharactersNumber(){
@@ -192,5 +178,8 @@ public class CreditQuotaOpening {
 	public void setBank(Intermediary bank) {
 		this.bank = bank;
 	}
-	
+
+	public void setPortal(Portal portal) {
+		this.portal = portal;
+	}
 }

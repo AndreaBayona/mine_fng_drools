@@ -17,7 +17,13 @@ public class Action {
 		super();
 		this.actionType = actionType;
 	}
-	
+
+	public Action(ActionRole actionType, FileInfo fileInfo, List<String[]> data) {
+		this.actionType = actionType;
+		this.fileInfo = fileInfo;
+		this.data = data;
+	}
+
 	//-----------------------------------
 	//------ Load file functions --------
 	//-----------------------------------

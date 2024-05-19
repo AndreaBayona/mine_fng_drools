@@ -10,13 +10,13 @@ import java.util.Set;
 public class Role {
 	
 	public static final Integer ADMIN_ROLE_ID = 123;
-	public static final Integer USER_ROLE_ID = 456;
+	public static final Integer READ_ONLY = 456;
 	
 	private Integer id;
 	private RoleType type;
 	
 	public enum RoleType {
-	  ADMIN, USER
+	  ADMIN, READ_ONLY
 	}
 	 
 	// Mapping from role types to allowed actions
@@ -26,7 +26,7 @@ public class Role {
         // Define the allowed actions for each role type
         roleActionsMap.put(RoleType.ADMIN, EnumSet.of(ActionRole.LOAD_ANEXO_5_FILE, ActionRole.GENERATE_CUPOS_PORTAL, ActionRole.LOAD_ANEXO_18_FILE,
 				ActionRole.MASS_CUPOS_CANCELLATION, ActionRole.CREATE_USER, ActionRole.DELETE_USER));
-        roleActionsMap.put(RoleType.USER, EnumSet.of(ActionRole.LOAD_ANEXO_5_FILE, ActionRole.GENERATE_CUPOS_PORTAL, ActionRole.LOAD_ANEXO_18_FILE,
+        roleActionsMap.put(RoleType.READ_ONLY, EnumSet.of(ActionRole.LOAD_ANEXO_5_FILE, ActionRole.GENERATE_CUPOS_PORTAL, ActionRole.LOAD_ANEXO_18_FILE,
 				ActionRole.MASS_CUPOS_CANCELLATION));
     }
 	

@@ -14,20 +14,21 @@ public class CreditOpeningService {
         this.kieContainer = kieContainer;
     }
 
-    public CreditOpeningResponse[] isFileContentValid(User user, CreditQuotaOpening[] creditQuotaOpenings) {
-        CreditOpeningResponse[] response = new CreditOpeningResponse[creditQuotaOpenings.length];
+    public CreditOpeningResponse isFileContentValid(User user, CreditQuotaOpening[] creditQuotaOpenings) {
+        CreditOpeningResponse response = new CreditOpeningResponse(user.getId());
 
         Portal portal = createPortal();
         Action createCuposAction = new Action(ActionRole.GENERATE_CUPOS_PORTAL);
 
         KieSession kieSession = kieContainer.newKieSession();
-        kieSession.setGlobal("creditOpeningResponses", response);
+        kieSession.setGlobal("creditOpeningResponse", response);
         kieSession.insert(portal);
         kieSession.insert(user);
         kieSession.insert(createCuposAction);
 
         for (CreditQuotaOpening opening : creditQuotaOpenings) {
             System.out.printf("Processing: %s%n", opening);
+            opening.setPortal(portal);
             kieSession.insert(opening);
         }
 

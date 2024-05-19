@@ -21,23 +21,6 @@ public class FileFormatResponse {
         }
         messages.add(message);
     }
-
-    public boolean isValid() {
-        return isValid;
-    }
-
-    public void setValid(boolean valid) {
-        isValid = valid;
-    }
-
-    public List<String> getMessage() {
-        return messages;
-    }
-
-    public void setMessage(List<String> messages) {
-        this.messages = messages;
-    }
-
     public String getUserId() {
         return userId;
     }
@@ -60,5 +43,21 @@ public class FileFormatResponse {
 
     public void setFileSize(Integer fileSize) {
         this.fileSize = fileSize;
+    }
+
+    public List<String> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<String> messages) {
+        this.messages = messages;
+    }
+
+    public boolean isValid() {
+        return isValid;
+    }
+
+    public void setIsValid(boolean isValid) {
+        this.isValid = isValid;
     }
 }

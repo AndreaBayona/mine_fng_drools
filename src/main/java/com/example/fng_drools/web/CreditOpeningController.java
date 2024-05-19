@@ -19,8 +19,8 @@ public class CreditOpeningController {
     }
 
     @PostMapping
-    public ResponseEntity<CreditOpeningResponse[]> getCreditOpeningsValidation(@RequestBody CreditOpeningRequest requestBody) {
-        CreditOpeningResponse[] res = service.isFileContentValid(requestBody.getUser(), requestBody.getCreditQuotaOpenings());
+    public ResponseEntity<CreditOpeningResponse> getCreditOpeningsValidation(@RequestBody CreditOpeningRequest requestBody) {
+        CreditOpeningResponse res = service.isFileContentValid(requestBody.getUser(), requestBody.getCreditQuotaOpenings());
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 }
