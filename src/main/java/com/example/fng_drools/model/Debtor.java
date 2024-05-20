@@ -12,7 +12,7 @@ public class Debtor {
 	private String name;
 	private Date bithDate;
 	private String address;
-	private String municipalityCode;
+	private Integer municipalityCode;
 	private String phone;
 	private String email;
 	
@@ -48,10 +48,10 @@ public class Debtor {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public String getMunicipalityCode() {
+	public Integer getMunicipalityCode() {
 		return municipalityCode;
 	}
-	public void setMunicipalityCode(String municipalityCode) {
+	public void setMunicipalityCode(Integer municipalityCode) {
 		this.municipalityCode = municipalityCode;
 	}
 	public String getPhone() {

@@ -13,13 +13,13 @@ public class Creators {
 		ArrayList<Intermediary> intermediaries = new ArrayList<>();
 
 		// Create 5 dummy User objects and add them to the ArrayList
-		intermediaries.add(new Intermediary(123, "Banco A"));
-		intermediaries.add(new Intermediary(456, "Banco B"));
-		intermediaries.add(new Intermediary(789, "Banco C"));
-		intermediaries.add(new Intermediary(1011, "Banco D"));
-		intermediaries.add(new Intermediary(1213, "Banco E"));
+		intermediaries.add(new Intermediary(1016495221, "Banco A"));
+		intermediaries.add(new Intermediary(1016495222, "Banco B"));
+		intermediaries.add(new Intermediary(1016495223, "Banco C"));
+		intermediaries.add(new Intermediary(1016495224, "Banco D"));
+		intermediaries.add(new Intermediary(1016495225, "Banco E"));
 
-        ArrayList<String> municipalityCodes = new ArrayList<>(Arrays.asList("5001", "5002", "5004", "5005", "5006"));
+        ArrayList<Integer> municipalityCodes = new ArrayList<>(Arrays.asList(5001, 5002, 5004, 5005, 5006));
 		
 		ArrayList<Role> roles = new ArrayList<>();
 		roles.add(new Role(Role.ADMIN_ROLE_ID, Role.RoleType.ADMIN));

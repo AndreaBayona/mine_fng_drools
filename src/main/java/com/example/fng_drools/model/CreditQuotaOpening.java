@@ -61,17 +61,17 @@ public class CreditQuotaOpening {
 	}
 
     public boolean validateMunicipalityCodeLength(){
-        String code = this.debtor.getMunicipalityCode();
+        String code = this.debtor.getMunicipalityCode().toString();
         return code.length() <= 5;
     }
 
     public boolean validateMunicipalityCodeIsNumeric(){
-        String code = this.debtor.getMunicipalityCode();
+        String code = this.debtor.getMunicipalityCode().toString();
         return Utils.isNumeric(code);
     }
 
     public boolean validateMunicipalityCodeExists(){
-        String code = this.debtor.getMunicipalityCode();
+		Integer code = this.debtor.getMunicipalityCode();
         return portal.doesMunicipalityExist(code);
     }
 
@@ -99,7 +99,7 @@ public class CreditQuotaOpening {
     }
 	
 	public boolean validateWarrantyCodePattern(){
-		String reference = this.warrantyReference.getId();
+		String reference = this.warrantyReference.getProductWarrantyCode();
         return Utils.validateWarrantyCodePattern(reference);
 	}
 	

@@ -5,14 +5,14 @@ import java.util.Date;
 public class Warranty {
 	private String id;
 	private Date startDate;
-	private Integer productWarrantyCode;
+	private String productWarrantyCode;
 	private Double supportedPercentage;
 	
 	//-----------------------------------
 	//------- Constructors --------------
 	//-----------------------------------
 
-	public Warranty(String id, Date startDate, Integer productWarrantyCode, Double supportedPercentage) {
+	public Warranty(String id, Date startDate, String productWarrantyCode, Double supportedPercentage) {
 		super();
 		this.id = id;
 		this.startDate = startDate;
@@ -36,10 +36,10 @@ public class Warranty {
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	public Integer getProductWarrantyCode() {
+	public String getProductWarrantyCode() {
 		return productWarrantyCode;
 	}
-	public void setProductWarrantyCode(Integer productWarrantyCode) {
+	public void setProductWarrantyCode(String productWarrantyCode) {
 		this.productWarrantyCode = productWarrantyCode;
 	}
 	public Double getSupportedPercentage() {

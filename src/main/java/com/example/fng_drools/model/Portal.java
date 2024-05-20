@@ -8,14 +8,14 @@ import java.util.List;
 public class Portal {
 	
 	private ArrayList<Intermediary> financialIntermediaries;
-	private ArrayList<String> municipalityCodes;
+	private ArrayList<Integer> municipalityCodes;
 	private ArrayList<Role> roles;
 	private HashMap<String, List<String[]>> loadedDataFiles;
 	
 	//-----------------------------------
 	//------- Constructors --------------
 	//-----------------------------------
-	public Portal(ArrayList<Intermediary> financialIntermediaries, ArrayList<String> municipalityCodes,
+	public Portal(ArrayList<Intermediary> financialIntermediaries, ArrayList<Integer> municipalityCodes,
 			ArrayList<Role> roles) {
 		this.financialIntermediaries = financialIntermediaries;
 		this.municipalityCodes = municipalityCodes;
@@ -41,8 +41,8 @@ public class Portal {
         return false;
     }
     
-    public boolean doesMunicipalityExist(String id) {
-        for (String codes : municipalityCodes) {
+    public boolean doesMunicipalityExist(Integer id) {
+        for (Integer codes : municipalityCodes) {
             if (codes.equals(id)) {
                 return true;
             }
@@ -61,11 +61,11 @@ public class Portal {
 		this.financialIntermediaries = financialIntermediaries;
 	}
 
-	public ArrayList<String> getMunicipalityCodes() {
+	public ArrayList<Integer> getMunicipalityCodes() {
 		return municipalityCodes;
 	}
 
-	public void setMunicipalityCodes(ArrayList<String> municipalityCodes) {
+	public void setMunicipalityCodes(ArrayList<Integer> municipalityCodes) {
 		this.municipalityCodes = municipalityCodes;
 	}
 
