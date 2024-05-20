@@ -58,6 +58,22 @@ public class Action {
 
 		return validate;
 	}
+
+	//-----------------------------------
+	//--- Mass cupos creation functions --
+	//-----------------------------------
+
+	public boolean fileExistsInPortal() {
+		return true;
+	}
+
+	public boolean reserveExistsInPortal() {
+		return true;
+	}
+
+	public void cancelReservation(String idReservation) {
+		return;
+	}
 	
 	
 	//-----------------------------------
