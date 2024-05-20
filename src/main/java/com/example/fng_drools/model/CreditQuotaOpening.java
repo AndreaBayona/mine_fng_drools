@@ -2,11 +2,11 @@ package com.example.fng_drools.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class CreditQuotaOpening {
 
 	private String id;
-	private String documentType; 
 	private String CIIUCode;
 	private Credit creditReference;
 	private Warranty warrantyReference;
@@ -18,11 +18,10 @@ public class CreditQuotaOpening {
 	//-----------------------------------
 	//------- Constructors --------------
 	//-----------------------------------
-	public CreditQuotaOpening(String id, String documentType, String cIIUCode,
+	public CreditQuotaOpening(String id, String cIIUCode,
 			Credit creditReference, Warranty warrantyReference, Debtor debtor, Intermediary bank, Portal portal) {
 		super();
 		this.id = id;
-		this.documentType = documentType;
 		CIIUCode = cIIUCode;
 		this.creditReference = creditReference;
 		this.warrantyReference = warrantyReference;
@@ -48,7 +47,7 @@ public class CreditQuotaOpening {
 	
 	public boolean validateDebtorIdCCType(){
 		String debtorId = this.debtor.getId();
-		return debtorId.length() <= 10 && this.debtor.getIdType() == Debtor.CC;
+		return debtorId.length() <= 10 && Objects.equals(this.debtor.getIdType(), Debtor.CC);
 	}
 
 	public boolean validateDebtorIdIsNumeric(){
@@ -117,16 +116,6 @@ public class CreditQuotaOpening {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-
-	public String getDocumentType() {
-		return documentType;
-	}
-
-
-	public void setDocumentType(String documentType) {
-		this.documentType = documentType;
 	}
 
 
