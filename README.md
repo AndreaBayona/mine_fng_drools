@@ -8,7 +8,7 @@ To run the project locally, follow these steps:
 **Clone the Repository**: Clone this repository to your local machine using the following command:
 
 ```
-git clone https://github.com/your-username/fng-drools-business-rules.git
+git clone https://github.com/AndreaBayona/mine_fng_drools.git
 ```
 
 **Build the Project**: Navigate to the project directory and build the project using Maven:
