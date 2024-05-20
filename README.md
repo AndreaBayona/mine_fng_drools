@@ -13,7 +13,7 @@ git clone https://github.com/AndreaBayona/mine_fng_drools.git
 
 **Build the Project**: Navigate to the project directory and build the project using Maven:
 ```
-cd fng-drools-business-rules
+cd mine_fng_drools
 mvn clean install
 ```
 
@@ -34,4 +34,9 @@ The system includes several Drools rules covering different scenarios:
 - File Format: Rules to validate the format and content of uploaded files.
 - Data Validation: Rules to validate the data provided for credit quota openings, including checks for NIT numbers, debtor IDs, municipality codes, CIIU codes, credit references, and warranty codes.
 - Action Authorization: Rules to authorize or deny mass cancellation of reservations.
+
+## Access the Documentation
+Once the application is running, you can access the API documentation at [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html) in your web browser. Comprehensive API documentation is available using Swagger UI.
+
+
 
