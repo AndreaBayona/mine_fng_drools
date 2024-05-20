@@ -23,3 +23,15 @@ mvn spring-boot:run
 ```
 
 **Access the Application**: Once the application is running, you can access it at `http://localhost:8080` in your web browser.
+
+## Description
+The system consists of a set of Drools rules that govern various actions and validations related to credit quota openings and other operations. These rules are defined in DRL (Drools Rule Language) files and are executed by the Drools rules engine.
+
+## Rules Overview
+The system includes several Drools rules covering different scenarios:
+
+- Permissions: Rules to check whether a user has permissions to perform specific actions.
+- File Format: Rules to validate the format and content of uploaded files.
+- Data Validation: Rules to validate the data provided for credit quota openings, including checks for NIT numbers, debtor IDs, municipality codes, CIIU codes, credit references, and warranty codes.
+- Action Authorization: Rules to authorize or deny mass cancellation of reservations.
+
