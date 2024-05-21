@@ -41,7 +41,7 @@ end
 
 
 
-rule "File loaded to open cupos to the system is of type CSV"
+rule "File loaded to the system is of type CSV"
     when
         $c: Action(actionType == ActionRole.LOAD_ANEXO_5_FILE)
         $u: User(roleIds.contains(Role.ADMIN_ROLE_ID))
@@ -51,7 +51,7 @@ rule "File loaded to open cupos to the system is of type CSV"
         fileFormatResponse.setIsValid(fileFormatResponse.isValid());
 end
 
-rule "File loaded to open cupos to the system is not of type CSV"
+rule "File loaded to the system is not of type CSV"
     when
         $c: Action(actionType == ActionRole.LOAD_ANEXO_5_FILE)
         $u: User(roleIds.contains(Role.ADMIN_ROLE_ID))
@@ -62,7 +62,7 @@ rule "File loaded to open cupos to the system is not of type CSV"
         fileFormatResponse.addMessage("ERROR: File is not of CSV type");
 end
 
-rule "File loaded to open cupos is not empty"
+rule "File loaded is not empty"
     when
         $c: Action(actionType == ActionRole.LOAD_ANEXO_5_FILE)
         $u: User(roleIds.contains(Role.ADMIN_ROLE_ID))
@@ -72,7 +72,7 @@ rule "File loaded to open cupos is not empty"
         fileFormatResponse.setIsValid(fileFormatResponse.isValid());
 end
 
-rule "File loaded to open cupos to the system is empty"
+rule "File loaded to the system is empty"
     when
         $c: Action(actionType == ActionRole.LOAD_ANEXO_5_FILE)
         $u: User(roleIds.contains(Role.ADMIN_ROLE_ID))
@@ -83,7 +83,7 @@ rule "File loaded to open cupos to the system is empty"
         fileFormatResponse.addMessage("ERROR: File is empty");
 end
 
-rule "File loaded to open respects max size"
+rule "File loaded does not exceeds max size"
     when
         $c: Action(actionType == ActionRole.LOAD_ANEXO_5_FILE)
         $u: User(roleIds.contains(Role.ADMIN_ROLE_ID))
@@ -93,7 +93,7 @@ rule "File loaded to open respects max size"
         fileFormatResponse.setIsValid(fileFormatResponse.isValid());
 end
 
-rule "File loaded to open cupos to the system exceeds max size"
+rule "File loaded to the system exceeds max size"
     when
         $c: Action(actionType == ActionRole.LOAD_ANEXO_5_FILE)
         $u: User(roleIds.contains(Role.ADMIN_ROLE_ID))
@@ -298,7 +298,7 @@ rule "Validate Warranty Code: pattern is not correct"
 end
 
 
-//-------------------Case: Cancel Reservation----------------------//
+//-------------------Case: Cancel Credit Reservation----------------------//
 
 rule "Action is of type MASS_CUPOS_CANCELLATION and user does not have permissions"
     when

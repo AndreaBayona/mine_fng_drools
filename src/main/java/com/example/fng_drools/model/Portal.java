@@ -32,7 +32,7 @@ public class Portal {
     	return loadedDataFiles.get(name);
     }
     
-    public boolean doesIntermediaryExist(Integer id) {
+    public boolean doesIntermediaryExist(String id) {
         for (Intermediary intermediary : financialIntermediaries) {
             if (intermediary.getId().equals(id)) {
                 return true;

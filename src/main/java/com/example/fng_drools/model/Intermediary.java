@@ -1,13 +1,13 @@
 package com.example.fng_drools.model;
 
 public class Intermediary {
-	private Integer nit;
+	private String nit;
 	private String name;
     
 	//-----------------------------------
 	//------- Constructors --------------
 	//-----------------------------------
-	public Intermediary(Integer id, String name)
+	public Intermediary(String id, String name)
 	{
 		this.nit = id;
 		this.name = name;
@@ -16,10 +16,10 @@ public class Intermediary {
 	//-----------------------------------
 	//------ Getters and Setters --------
 	//-----------------------------------
-	public Integer getId() {
+	public String getId() {
 		return nit;
 	}
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.nit = id;
 	}
 	public String getName() {
