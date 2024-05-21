@@ -277,7 +277,7 @@ rule "Validate Credit Reference: not numeric characters found"
         creditOpeningResponse.addErrorMessage($o.getId(), "Credit Reference 2", msg);
 end
 
-rule "Validate Warranty Code: chanracters length exceeds 6"
+rule "Validate Warranty Code: characters length exceeds 6"
     when
         $o: CreditQuotaOpening()
         eval(!$o.validateWarrantyCodeCharactersLength())
